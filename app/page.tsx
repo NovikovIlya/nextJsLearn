@@ -8,10 +8,11 @@ export default async function HomePage() {
       <h1 className="text-2xl font-bold mb-4">Products</h1>
       
       <ul className="mb-6 space-y-2">
-        {products.map((p: any) => (
+        {products
+          .sort((a: any, b: any) => b.id - a.id) // Sort by id descending
+          .map((p: any) => (
           <li key={p.id} className="flex justify-between items-center border-b pb-2">
-            <span>{p.name} — ${p.createdAt}</span>
-            <span>{p.title}</span>
+            <span>{p.title} — ${p.price}</span>
             <form action={deleteProduct.bind(null, p.id)}>
               <button 
                 type="submit" 
