@@ -1,4 +1,4 @@
-import { getProducts, createProduct, deleteProduct } from "./actions";
+import { getProducts, createProduct, deleteProduct, login, logout } from "./actions";
 
 export default async function HomePage() {
   const products = await getProducts();
@@ -6,44 +6,32 @@ export default async function HomePage() {
   return (
     <main className="p-6">
       <h1 className="text-2xl font-bold mb-4">Products</h1>
-      
+
+      <div className="flex gap-2 mb-4">
+        <form action={login}>
+          <button className="bg-green-500 text-white px-3 py-1 rounded">Login</button>
+        </form>
+        <form action={logout}>
+          <button className="bg-gray-500 text-white px-3 py-1 rounded">Logout</button>
+        </form>
+      </div>
+
       <ul className="mb-6 space-y-2">
-        {products
-          .sort((a: any, b: any) => b.id - a.id) // Sort by id descending
-          .map((p: any) => (
+        {products.map((p: any) => (
           <li key={p.id} className="flex justify-between items-center border-b pb-2">
             <span>{p.title} — ${p.price}</span>
             <form action={deleteProduct.bind(null, p.id)}>
-              <button 
-                type="submit" 
-                className="text-red-500 hover:text-red-700 text-sm"
-              >
-                Удалить
-              </button>
+              <button type="submit" className="text-red-500 hover:text-red-700 text-sm">Удалить</button>
             </form>
+            
           </li>
         ))}
       </ul>
 
       <form action={createProduct} className="space-y-2 max-w-md">
-        <input 
-          name="title" 
-          placeholder="Название товара" 
-          className="border p-2 w-full rounded" 
-          required
-        />
-        <input 
-          name="price" 
-          type="number" 
-          step="0.01"
-          placeholder="Цена" 
-          className="border p-2 w-full rounded" 
-          required
-        />
-        <button 
-          type="submit" 
-          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full"
-        >
+        <input name="title" placeholder="Название товара" className="border p-2 w-full rounded" required />
+        <input name="price" type="number" step="0.01" placeholder="Цена" className="border p-2 w-full rounded" required />
+        <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full">
           Создать товар
         </button>
       </form>
